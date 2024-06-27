@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="error">Left and right</string>
+    <string name="failure">Ошибка при получении данных</string>
+    <string name="saved">tabulated function saved</string>
+    <string name="point">поинт</string>
+    <string name="left_domain_border">left domain border</string>
+    <string name="right_domain_border">right domain border</string>
+    <string name="points_count">points count</string>
+    <string name="create">create</string>
+    <string name="generate">generate</string>
+    <string name="download">download</string>
+    <string name="save">save</string>
+    <string name="back">back</string>
+    <string name="x">x</string>
+    <string name="y">y</string>
+</resources>
