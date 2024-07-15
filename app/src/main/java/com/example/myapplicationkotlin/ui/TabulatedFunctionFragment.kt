@@ -1,7 +1,6 @@
 package com.example.myapplicationkotlin.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +26,7 @@ class TabulatedFunctionFragment : Fragment, Serializable {
         this.array = array
     }
 
-    constructor() {} ///????
+    constructor() {}
 
     open override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +39,8 @@ class TabulatedFunctionFragment : Fragment, Serializable {
         )
         if (array != null) {
             tabulatedFunctionFragmentViewModel!!.setArrayTabulatedFunction(array!!)
-        } //?? !!
-        observeFragmentViewModel(view) //?
+        }
+        observeFragmentViewModel(view)
         return view
     }
 
@@ -56,7 +55,7 @@ class TabulatedFunctionFragment : Fragment, Serializable {
     }
 
     open fun closeDialog() {
-        if (tabulatedFunctionDialogFragment != null) {//??
+        if (tabulatedFunctionDialogFragment != null) {
             tabulatedFunctionDialogFragment?.dismiss()
         }
     }

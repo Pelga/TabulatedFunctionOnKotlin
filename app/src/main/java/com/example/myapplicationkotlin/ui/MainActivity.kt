@@ -15,8 +15,6 @@ import com.google.android.material.button.MaterialButton
 import java.io.Serializable
 
 open class MainActivity : AppCompatActivity(), Serializable {
-  ///  val viewModel: MainActivityViewModel? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,8 +26,7 @@ open class MainActivity : AppCompatActivity(), Serializable {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
-    }//?????????????????
-
+    }
 
     private fun openFragment(arrayTabulatedFunction: ArrayTabulatedFunction) {
         val fragmentManager = supportFragmentManager

@@ -2,7 +2,6 @@ package com.example.myapplicationkotlin.ui
 
 import android.view.View
 import android.widget.EditText
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplicationkotlin.R
@@ -10,7 +9,6 @@ import com.example.myapplicationkotlin.data.TabulatedFunctionRepository
 import com.example.myapplicationkotlin.domain.ArrayTabulatedFunction
 import com.example.myapplicationkotlin.domain.Constants.Companion.ARRAY
 import com.example.myapplicationkotlin.domain.Constants.Companion.NULL
-
 import com.example.myapplicationkotlin.domain.TabulatedFunctionUseCase
 import com.example.myapplicationkotlin.ui.TabulatedFunctionString.Companion.toStr
 
@@ -25,26 +23,6 @@ class MainActivityViewModel : ViewModel() {
 
     val myRepository = TabulatedFunctionRepository()
     val useCase = TabulatedFunctionUseCase(myRepository)
-
-  /*  fun getArrayTabulatedFunctionLiveData(): LiveData<ArrayTabulatedFunction?> {
-        return arrayTabulatedFunctionLiveData
-    }
-
-    fun getMakeErrorToastLiveData(): LiveData<Int> {
-        return makeErrorToastLiveData
-    }
-
-  /*  fun getCloseKeyboardLiveData(): MutableLiveData<View> {
-        return closeKeyboardLiveData
-    }*/
-
-    fun getVisibilityLiveData(): MutableLiveData<Int> {
-        return visibilityLiveData
-    }
-
-    fun isCloseCardView(): MutableLiveData<Boolean> {
-        return closeCardViewLiveData
-    }*/
 
     fun generatedArrayFunction(x: Double, y: Double, p: Int) {
         arrayTabulatedFunctionLiveData.setValue(ArrayTabulatedFunction(x, y, p))

@@ -1,7 +1,6 @@
 package com.example.myapplicationkotlin.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,6 @@ open class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.i
                     { view -> delete(i) })
         )
     }
-
 
     @SuppressLint("NotifyDataSetChanged")
     open fun saveList(

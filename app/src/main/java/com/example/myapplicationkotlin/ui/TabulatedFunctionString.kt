@@ -8,4 +8,4 @@ open class TabulatedFunctionString {
             return editText.text.toString()
         }
     }
-}//static
+}

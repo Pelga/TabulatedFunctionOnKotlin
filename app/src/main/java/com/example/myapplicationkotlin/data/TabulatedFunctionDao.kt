@@ -22,5 +22,4 @@ interface TabulatedFunctionDao {
 
     @Delete
     fun delete(tabulatedFunctionEntity: TabulatedFunctionEntity)
-
 }

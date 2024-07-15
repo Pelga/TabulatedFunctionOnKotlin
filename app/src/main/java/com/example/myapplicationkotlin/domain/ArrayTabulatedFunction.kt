@@ -57,6 +57,5 @@ class ArrayTabulatedFunction : Serializable {
             }
         }
         return str + CLOSE
-
     }
 }

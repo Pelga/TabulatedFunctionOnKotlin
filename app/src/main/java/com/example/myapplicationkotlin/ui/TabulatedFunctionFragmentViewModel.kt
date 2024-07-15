@@ -1,7 +1,5 @@
 package com.example.myapplicationkotlin.ui
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplicationkotlin.R
@@ -37,7 +35,7 @@ class TabulatedFunctionFragmentViewModel : ViewModel() {
 
     open fun positiveButtonPressed(x: Double, y: Double) {
         var functionPoint = FunctionPoint(x, y)
-        var array: ArrayTabulatedFunction = arrayTabulatedFunctionMutableLiveData.getValue()!!//
+        var array: ArrayTabulatedFunction = arrayTabulatedFunctionMutableLiveData.getValue()!!
         val functionPoints = Array<FunctionPoint?>(array.getPointsCount() + 1) { FunctionPoint() }
         for (i in 0..array.getPointsCount() - 1) {
             functionPoints[i] = array.getPoint(i)!!

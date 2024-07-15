@@ -36,5 +36,4 @@ class TabulatedFunctionUseCase {
     fun getButtonDatabasePressed(list: ArrayList<FunctionPoint>) {
         myRepository.buttonDatabasePressed(list)
     }
-
 }

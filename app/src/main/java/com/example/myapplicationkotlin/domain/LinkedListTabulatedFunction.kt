@@ -9,9 +9,9 @@ class LinkedListTabulatedFunction : Serializable {
 
     private var head: FunctionNode = FunctionNode()
     private var lastIndex: Int = -1
-    private var leftX : Double = 0.0
-    private var rightX : Double = 0.0
-    private var values: Array<Double>? = null //??
+    private var leftX: Double = 0.0
+    private var rightX: Double = 0.0
+    private var values: Array<Double>? = null
 
     constructor(array: Array<FunctionPoint>) {
         var pointsCount: Int = array.size
@@ -83,7 +83,12 @@ class LinkedListTabulatedFunction : Serializable {
         var allLength: FunctionNode = head
         while (allLength.next != null) {
             if (x < allLength.item.x && x > allLength.prev!!.item.x) {
-                return arrayOf(allLength.item.x, allLength.prev!!.item.x, allLength.item.y, allLength.prev!!.item.y)
+                return arrayOf(
+                    allLength.item.x,
+                    allLength.prev!!.item.x,
+                    allLength.item.y,
+                    allLength.prev!!.item.y
+                )
             }
             allLength = allLength.next!!
         }
@@ -193,31 +198,6 @@ class LinkedListTabulatedFunction : Serializable {
         return newObject
     }
 
-   /* fun deletePoint(index: Int) {
-        var prevIndex: FunctionNode
-        if (index == 0) {
-            var prevIndex = head
-        } else {
-            var prevIndex = getNodeByIndex(index - 1)
-        }
-
-        val deletedNoted: FunctionNode = getNodeByIndex(index)
-        if (deletedNoted.next == null) {
-            prevIndex.next = null
-        } else {
-            val nextIndex: FunctionNode = getNodeByIndex(index + 1)
-            prevIndex.next = nextIndex
-            nextIndex.prev = prevIndex
-            deletedNoted.next = null
-            var objectForIndex: FunctionNode = prevIndex
-            while (objectForIndex.next != null) {
-                objectForIndex.index = objectForIndex.index - 1
-                objectForIndex = objectForIndex.next!!
-            }
-        }
-        deletedNoted.prev = null
-    }*/
-
     override fun toString(): String {
         var str: String = OPEN_ANOTHER
         var tail: FunctionNode = head
@@ -271,26 +251,5 @@ class LinkedListTabulatedFunction : Serializable {
         return values?.let { LinkedListTabulatedFunction(leftX, rightX, it) }
             ?: LinkedListTabulatedFunction(leftX, rightX, getPointsCount())
     }
-    /*
-     @Override
-    public Object clone() {
-        FunctionNode tail = head;
-        int i = 0;
-        FunctionPoint[] array = new FunctionPoint[getPointsCount()];
-        if (leftX == 0 && rightX == 0) {
-            while (tail.next != null) {
-                array[i] = tail.item;
-                tail = tail.next;
-                i++;
-            }
-            return new LinkedListTabulatedFunction(array);
-        }
-        if (values == null) {
-            return new LinkedListTabulatedFunction(leftX, rightX, getPointsCount());
-        } else {
-            return new LinkedListTabulatedFunction(leftX, rightX, values);
-        }
-    }
-     */
 }
 

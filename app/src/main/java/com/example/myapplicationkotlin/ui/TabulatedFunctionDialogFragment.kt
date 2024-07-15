@@ -17,7 +17,6 @@ import com.example.myapplicationkotlin.ui.TabulatedFunctionString.Companion.toSt
 import java.io.Serializable
 
 class TabulatedFunctionDialogFragment : DialogFragment(), Serializable {
-  //  lateinit var myFragmentViewModel: TabulatedFunctionFragmentViewModel
     lateinit var xDialog2: EditText
     lateinit var yDialog2: EditText
 

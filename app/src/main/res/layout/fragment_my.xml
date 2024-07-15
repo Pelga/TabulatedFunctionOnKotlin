@@ -29,5 +29,4 @@
         android:textColor="@color/black"
         tools:layout_editor_absoluteX="0dp" />
 
-
 </FrameLayout>

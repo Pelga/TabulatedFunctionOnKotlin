@@ -5,9 +5,7 @@ import androidx.room.Room
 import com.example.myapplicationkotlin.data.TabulatedFunctionDatabase
 import com.example.myapplicationkotlin.domain.Constants.Companion.DATABASE
 
-class App: Application() {
-    //ошибка в манифесте
-
+class App : Application() {
     lateinit var database: TabulatedFunctionDatabase
         private set
 
@@ -22,5 +20,5 @@ class App: Application() {
         @get:Synchronized
         lateinit var instance: App
             private set
-    }//??
+    }
 }

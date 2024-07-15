@@ -9,10 +9,10 @@ import java.io.Serializable
 class FunctionPoint : Serializable {
 
     @SerializedName("x")
-    var x: Double //??
+    var x: Double
 
     @SerializedName("y")
-    var y: Double //??
+    var y: Double
 
     constructor(x: Double, y: Double) {
         this.x = x
@@ -60,5 +60,4 @@ class FunctionPoint : Serializable {
     fun clone(): Any? {
         return FunctionPoint(x, y)
     }
-
 }
