@@ -38,9 +38,6 @@ class FunctionPoint : Serializable {
         if (o === this) {
             return true
         }
-        if (o !== this) {
-            return false
-        }
         val c = o as FunctionPoint
         return (java.lang.Double.compare(x, c.x) === 0
                 && java.lang.Double.compare(y, c.y) === 0)
@@ -57,7 +54,7 @@ class FunctionPoint : Serializable {
     }
 
     @Throws(CloneNotSupportedException::class)
-    fun clone(): Any? {
+    fun clone(): Any {
         return FunctionPoint(x, y)
     }
 }

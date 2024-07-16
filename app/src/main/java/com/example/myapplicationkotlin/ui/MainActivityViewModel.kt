@@ -10,6 +10,7 @@ import com.example.myapplicationkotlin.domain.ArrayTabulatedFunction
 import com.example.myapplicationkotlin.domain.Constants.Companion.ARRAY
 import com.example.myapplicationkotlin.domain.Constants.Companion.NULL
 import com.example.myapplicationkotlin.domain.TabulatedFunctionUseCase
+import com.example.myapplicationkotlin.domain.TabulatedFunctionUseCaseCallback
 import com.example.myapplicationkotlin.ui.TabulatedFunctionString.Companion.toStr
 
 
@@ -77,7 +78,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun createTabulatedFunctionByRequest() {
         useCase.getArrayTabulatedFunction(object :
-            TabulatedFunctionUseCase.TabulatedFunctionUseCaseCallback {
+            TabulatedFunctionUseCaseCallback {
             override fun onSuccess(arrayTabulatedFunction: ArrayTabulatedFunction?) {
                 arrayTabulatedFunctionLiveData.setValue(arrayTabulatedFunction)
             }

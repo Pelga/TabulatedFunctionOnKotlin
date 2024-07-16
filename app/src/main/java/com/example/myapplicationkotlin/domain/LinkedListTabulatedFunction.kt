@@ -136,7 +136,7 @@ class LinkedListTabulatedFunction : Serializable {
 
     /*******************************************************************************************/
 
-    open class FunctionNode : Serializable {
+    class FunctionNode : Serializable {
         var item: FunctionPoint
         var next: FunctionNode?
         var prev: FunctionNode?
@@ -241,7 +241,7 @@ class LinkedListTabulatedFunction : Serializable {
         var i = 0
         val array = Array(getPointsCount()) { FunctionPoint() }
         if (leftX == 0.0 && rightX == 0.0) {
-            while (tail?.next != null) {
+            while (tail.next != null) {
                 array[i] = tail.item
                 tail = tail.next!!
                 i++

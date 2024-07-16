@@ -28,11 +28,6 @@ class TabulatedFunctionUseCase {
         return myRepository.createTabulatedFunctionByDatabase()
     }
 
-    interface TabulatedFunctionUseCaseCallback {
-        fun onSuccess(arrayTabulatedFunction: ArrayTabulatedFunction?)
-        fun onFailure(throwable: Throwable?)
-    }
-
     fun getButtonDatabasePressed(list: ArrayList<FunctionPoint>) {
         myRepository.buttonDatabasePressed(list)
     }

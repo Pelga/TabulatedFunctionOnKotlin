@@ -20,7 +20,7 @@ class TabulatedFunctionDialogFragment : DialogFragment(), Serializable {
     lateinit var xDialog2: EditText
     lateinit var yDialog2: EditText
 
-    open override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val myFragmentViewModel =
             ViewModelProvider(requireActivity()).get(TabulatedFunctionFragmentViewModel::class.java)
         val builder = AlertDialog.Builder(activity)

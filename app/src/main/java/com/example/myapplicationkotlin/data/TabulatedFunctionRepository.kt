@@ -13,13 +13,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-open class TabulatedFunctionRepository {
+class TabulatedFunctionRepository {
 
     val BASE_URL = "https://run.mocky.io/"
 
     var data: TabulatedFunctionDateNumbers? = null
 
-    open fun createTabulatedFunctionByRequest(myRepositoryCallback: TabulatedFunctionRepositoryCallback) {
+    fun createTabulatedFunctionByRequest(myRepositoryCallback: TabulatedFunctionRepositoryCallback) {
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -49,7 +49,7 @@ open class TabulatedFunctionRepository {
         })
     }
 
-    open fun createTabulatedFunctionByDatabase(): ArrayTabulatedFunction? {
+    fun createTabulatedFunctionByDatabase(): ArrayTabulatedFunction? {
         val db: TabulatedFunctionDatabase = App.instance.database
         val dao = db.tabulatedFunctionDao()
         val entity: List<TabulatedFunctionEntity> = dao!!.getAll()
@@ -60,22 +60,22 @@ open class TabulatedFunctionRepository {
         return arrayTabulatedFunction
     }
 
-    open fun toFunctionArray(entity: List<TabulatedFunctionEntity?>?): Array<FunctionPoint?> {
-        val array: Array<FunctionPoint?> = arrayOfNulls<FunctionPoint>(entity!!.size)
-        for (i in entity!!.indices) {
+    fun toFunctionArray(entity: List<TabulatedFunctionEntity?>?): Array<FunctionPoint?> {
+        val array: Array<FunctionPoint?> = arrayOfNulls(entity!!.size)
+        for (i in entity.indices) {
             array[i] = entity[i]?.let { toFunctionPoint(it) }
         }
         return array
     }
 
-    open fun toFunctionPoint(entity: TabulatedFunctionEntity): FunctionPoint? {
+    fun toFunctionPoint(entity: TabulatedFunctionEntity): FunctionPoint? {
         val fp = FunctionPoint()
         fp.x = entity.x
         fp.y = entity.y
         return fp
     }
 
-    open fun buttonDatabasePressed(list: ArrayList<FunctionPoint>) {
+    fun buttonDatabasePressed(list: ArrayList<FunctionPoint>) {
         val database: TabulatedFunctionDatabase = App.instance.database
         val dao = database.tabulatedFunctionDao()
         for (i in list.indices) {

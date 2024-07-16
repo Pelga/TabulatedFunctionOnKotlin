@@ -11,8 +11,8 @@ import com.example.myapplicationkotlin.R
 import com.example.myapplicationkotlin.domain.ArrayTabulatedFunction
 import com.example.myapplicationkotlin.domain.FunctionPoint
 
-open class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Serializable {
-    open val list = ArrayList<FunctionPoint>()
+class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Serializable {
+    val list = ArrayList<FunctionPoint>()
 
     @NonNull
     override fun onCreateViewHolder(
@@ -30,9 +30,7 @@ open class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.i
         tabViewHolder: TabViewHolder,
         i: Int
     ) {
-        if (list.get(i) != null) {
-            tabViewHolder.getButton().setText(list.get(i).toString())
-        }
+        tabViewHolder.getButton().setText(list.get(i).toString())
         tabViewHolder.getButton().setOnClickListener(
             (
                     { view -> delete(i) })
@@ -40,7 +38,7 @@ open class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.i
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    open fun saveList(
+    fun saveList(
         list: ArrayTabulatedFunction
     ) {
         for (i in 0 until list.getPointsCount()) {
@@ -55,12 +53,12 @@ open class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.i
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    open fun delete(position: Int) {
+    fun delete(position: Int) {
         list.removeAt(position)
         notifyDataSetChanged()
     }
 
-    open class TabViewHolder : RecyclerView.ViewHolder {
+    class TabViewHolder : RecyclerView.ViewHolder {
 
         val tabulatedButton: Button
 

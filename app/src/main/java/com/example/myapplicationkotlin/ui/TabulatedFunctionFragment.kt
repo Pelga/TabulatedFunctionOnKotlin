@@ -28,7 +28,7 @@ class TabulatedFunctionFragment : Fragment, Serializable {
 
     constructor() {}
 
-    open override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,23 +44,23 @@ class TabulatedFunctionFragment : Fragment, Serializable {
         return view
     }
 
-    open fun openDialog() {
+    fun openDialog() {
         tabulatedFunctionDialogFragment = TabulatedFunctionDialogFragment()
         tabulatedFunctionDialogFragment!!.show(getChildFragmentManager(), DIALOG)
     }
 
-    open override fun onPause() {
+    override fun onPause() {
         closeDialog()
         super.onPause()
     }
 
-    open fun closeDialog() {
+    fun closeDialog() {
         if (tabulatedFunctionDialogFragment != null) {
             tabulatedFunctionDialogFragment?.dismiss()
         }
     }
 
-    open fun observeFragmentViewModel(view: View) {
+    fun observeFragmentViewModel(view: View) {
         var recyclerView: RecyclerView = view.findViewById(R.id.recycler_view2)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         tabAdapter = TabAdapter()

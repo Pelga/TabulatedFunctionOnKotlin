@@ -1,6 +1,6 @@
 package com.example.myapplicationkotlin.domain
 
-open class Constants {
+class Constants {
     companion object {
         const val OPEN = "{ "
         const val CLOSE = " }"

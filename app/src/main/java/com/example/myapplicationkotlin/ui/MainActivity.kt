@@ -14,7 +14,7 @@ import com.example.myapplicationkotlin.domain.ArrayTabulatedFunction
 import com.google.android.material.button.MaterialButton
 import java.io.Serializable
 
-open class MainActivity : AppCompatActivity(), Serializable {
+class MainActivity : AppCompatActivity(), Serializable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
