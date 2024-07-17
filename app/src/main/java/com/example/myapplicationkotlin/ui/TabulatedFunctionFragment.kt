@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationkotlin.R
 import com.example.myapplicationkotlin.domain.ArrayTabulatedFunction
-import com.example.myapplicationkotlin.domain.Constants.Companion.DIALOG
+import com.example.myapplicationkotlin.domain.Constants.DIALOG
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.Serializable
 
 class TabulatedFunctionFragment : Fragment, Serializable {
-    var tabulatedFunctionFragmentViewModel: TabulatedFunctionFragmentViewModel? = null
-    var tabulatedFunctionDialogFragment: TabulatedFunctionDialogFragment? = null
-    var tabAdapter: TabAdapter? = null
-    var array: ArrayTabulatedFunction? = null
+    private var tabulatedFunctionFragmentViewModel: TabulatedFunctionFragmentViewModel? = null
+    private var tabulatedFunctionDialogFragment: TabulatedFunctionDialogFragment? = null
+    private var tabAdapter: TabAdapter? = null
+    private var array: ArrayTabulatedFunction? = null
 
     constructor(array: ArrayTabulatedFunction?) {
         this.array = array
@@ -32,11 +32,10 @@ class TabulatedFunctionFragment : Fragment, Serializable {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View { //?
         val view: View = inflater.inflate(R.layout.fragment_my, container, false)
-        tabulatedFunctionFragmentViewModel = ViewModelProvider(requireActivity()).get(
-            TabulatedFunctionFragmentViewModel::class.java
-        )
+        tabulatedFunctionFragmentViewModel =
+            ViewModelProvider(requireActivity())[TabulatedFunctionFragmentViewModel::class.java]
         if (array != null) {
             tabulatedFunctionFragmentViewModel!!.setArrayTabulatedFunction(array!!)
         }
@@ -44,9 +43,9 @@ class TabulatedFunctionFragment : Fragment, Serializable {
         return view
     }
 
-    fun openDialog() {
+    private fun openDialog() {
         tabulatedFunctionDialogFragment = TabulatedFunctionDialogFragment()
-        tabulatedFunctionDialogFragment!!.show(getChildFragmentManager(), DIALOG)
+        tabulatedFunctionDialogFragment!!.show(childFragmentManager, DIALOG)
     }
 
     override fun onPause() {
@@ -54,14 +53,14 @@ class TabulatedFunctionFragment : Fragment, Serializable {
         super.onPause()
     }
 
-    fun closeDialog() {
+    private fun closeDialog() {
         if (tabulatedFunctionDialogFragment != null) {
             tabulatedFunctionDialogFragment?.dismiss()
         }
     }
 
-    fun observeFragmentViewModel(view: View) {
-        var recyclerView: RecyclerView = view.findViewById(R.id.recycler_view2)
+    private fun observeFragmentViewModel(view: View) {
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view2)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         tabAdapter = TabAdapter()
         recyclerView.adapter = tabAdapter
@@ -73,19 +72,19 @@ class TabulatedFunctionFragment : Fragment, Serializable {
             viewLifecycleOwner
         ) { b -> openDialog() }
 
-        var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
-        var buttonDatabase: Button = view.findViewById(R.id.button_database)
+        val addButton: FloatingActionButton = view.findViewById(R.id.add_button)
+        val buttonDatabase: Button = view.findViewById(R.id.button_database)
 
         tabulatedFunctionFragmentViewModel?.makeToastLiveData?.observe(
             viewLifecycleOwner
         ) { string -> Toast.makeText(requireContext(), string, Toast.LENGTH_LONG).show() }
 
-        addButton.setOnClickListener(View.OnClickListener { view1: View ->
+        addButton.setOnClickListener(View.OnClickListener {
             tabulatedFunctionFragmentViewModel?.addButtonPressed(
                 false
             )
         })
-        buttonDatabase.setOnClickListener(View.OnClickListener { view1: View ->
+        buttonDatabase.setOnClickListener(View.OnClickListener {
             tabulatedFunctionFragmentViewModel?.buttonDatabasePressed(
                 tabAdapter!!.list
             )

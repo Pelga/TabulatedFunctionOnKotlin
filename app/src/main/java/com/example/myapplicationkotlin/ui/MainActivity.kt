@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), Serializable {
             .commit()
     }
 
-    fun observeViewModel() {
+    private fun observeViewModel() {
         val cardView = findViewById<CardView>(R.id.card)
         val leftDomainBorder = findViewById<EditText>(R.id.right_domain_border)
         val rightDomainBorder = findViewById<EditText>(R.id.left_domain_border)
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), Serializable {
         val materialButtonCreate = findViewById<MaterialButton>(R.id.material_button)
         val materialButtonGenerate = findViewById<MaterialButton>(R.id.material_button_generate)
         val materialButtonDownload = findViewById<MaterialButton>(R.id.material_button_download)
-        val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)//??
+        val viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
         viewModel.closeCardViewLiveData.observe(this) { boo ->
             cardView.visibility = if (boo) View.INVISIBLE else View.VISIBLE

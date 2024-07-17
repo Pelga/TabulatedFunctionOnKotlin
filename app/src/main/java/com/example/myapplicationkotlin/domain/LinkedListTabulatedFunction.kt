@@ -1,8 +1,8 @@
 package com.example.myapplicationkotlin.domain
 
-import com.example.myapplicationkotlin.domain.Constants.Companion.CLOSE_ANOTHER
-import com.example.myapplicationkotlin.domain.Constants.Companion.COMMA
-import com.example.myapplicationkotlin.domain.Constants.Companion.OPEN_ANOTHER
+import com.example.myapplicationkotlin.domain.Constants.CLOSE_ANOTHER
+import com.example.myapplicationkotlin.domain.Constants.COMMA
+import com.example.myapplicationkotlin.domain.Constants.OPEN_ANOTHER
 import java.io.Serializable
 
 class LinkedListTabulatedFunction : Serializable {
@@ -14,7 +14,7 @@ class LinkedListTabulatedFunction : Serializable {
     private var values: Array<Double>? = null
 
     constructor(array: Array<FunctionPoint>) {
-        var pointsCount: Int = array.size
+        val pointsCount: Int = array.size
         var buffer: FunctionNode = head
         for (i in 0 until pointsCount) {
             buffer.item.x = array[i].x
@@ -37,8 +37,8 @@ class LinkedListTabulatedFunction : Serializable {
         this.leftX = leftX
         this.rightX = rightX
         var allLength: FunctionNode = head
-        var i: Int = 0
-        var del: Double = (rightX - leftX) / pointsCount
+        var i = 0
+        val del: Double = (rightX - leftX) / pointsCount
         while (i < pointsCount) {
             allLength.item = FunctionPoint()
             allLength.next = FunctionNode(allLength, FunctionPoint(), null, i)
@@ -61,13 +61,13 @@ class LinkedListTabulatedFunction : Serializable {
         this.values = values
         head = FunctionNode()
         var allLength: FunctionNode = head
-        var i: Int = 0
-        var pointsCount: Int = values.size
-        var del: Double = (rightX - leftX) / pointsCount
+        var i = 0
+        val pointsCount: Int = values.size
+        val del: Double = (rightX - leftX) / pointsCount
         while (i < pointsCount) {
             allLength.item = FunctionPoint()
             if (i == 0) {
-                allLength.item.x = leftX
+                leftX.also { allLength.item.x = it }
             } else {
                 allLength.item.x = del + allLength.prev!!.item.x
             }
@@ -95,7 +95,7 @@ class LinkedListTabulatedFunction : Serializable {
         return null
     }
 
-    fun getPointsCount(): Int {
+    private fun getPointsCount(): Int {
         var allLength: FunctionNode = head
         var i: Int = 0
         while (allLength.next != null) {
@@ -105,7 +105,7 @@ class LinkedListTabulatedFunction : Serializable {
         return i
     }
 
-    fun getPoint(index: Int): FunctionPoint {
+    private fun getPoint(index: Int): FunctionPoint {
         var allLength: FunctionNode = head
         var i: Int = 0
 
@@ -117,15 +117,15 @@ class LinkedListTabulatedFunction : Serializable {
     }
 
     fun getPointX(index: Int): Double {
-        return getPoint(index).x //??
+        return this.getPoint(index).x
     }
 
     fun getPointY(index: Int): Double {
-        return getPoint(index).y
+        return this.getPoint(index).y
     }
 
     fun addPoint(point: FunctionPoint) {
-        var i: Int = 0
+        var i = 0
         var allLength: FunctionNode = head
         while (allLength.item.x <= point.x) {
             i++
@@ -161,15 +161,15 @@ class LinkedListTabulatedFunction : Serializable {
     /*******************************************************************************************/
 
     fun getNodeByIndex(index: Int): FunctionNode {
-        var currentElement: FunctionNode = head.next!!
+        val currentElement: FunctionNode = head.next!!
         while (index != currentElement.index) {
-            var currentElement = currentElement.next
+            currentElement.next
         }
         return currentElement
     }
 
     fun addNodeToTail(functionPoint: FunctionPoint): FunctionNode {
-        lastIndex = lastIndex + 1
+        lastIndex += 1
         var tail: FunctionNode = head
         while (tail.next != null) {
             tail = tail.next!!
@@ -179,21 +179,20 @@ class LinkedListTabulatedFunction : Serializable {
         return tail
     }
 
-    fun addNodeByIndex(index: Int, functionPoint: FunctionPoint): FunctionNode {
-        var prevIndex: FunctionNode
-        if (index == 0) {
-            prevIndex = head
+    private fun addNodeByIndex(index: Int, functionPoint: FunctionPoint): FunctionNode {
+        val prevIndex: FunctionNode = if (index == 0) {
+            head
         } else {
-            prevIndex = getNodeByIndex(index - 1)
+            getNodeByIndex(index - 1)
         }
-        var newIndex: FunctionNode = getNodeByIndex(index)
-        var newObject: FunctionNode = FunctionNode(prevIndex, functionPoint, newIndex, index)
+        val newIndex: FunctionNode = getNodeByIndex(index)
+        val newObject = FunctionNode(prevIndex, functionPoint, newIndex, index)
         newIndex.prev = newObject
         prevIndex.next = newObject
-        var ObjeckForNext: FunctionNode = newIndex
-        while (ObjeckForNext.next != null) {
-            ObjeckForNext.index = ObjeckForNext.index + 1
-            ObjeckForNext = ObjeckForNext.next!!
+        var objectForNext: FunctionNode = newIndex
+        while (objectForNext.next != null) {
+            objectForNext.index = objectForNext.index + 1
+            objectForNext = objectForNext.next!!
         }
         return newObject
     }
@@ -206,7 +205,7 @@ class LinkedListTabulatedFunction : Serializable {
                 str = str + tail.item.toString() + COMMA
                 tail = tail.next!!
             } else {
-                str = str + tail.item.toString()
+                str += tail.item.toString()
                 tail = tail.next!!
             }
         }
@@ -219,19 +218,19 @@ class LinkedListTabulatedFunction : Serializable {
         var tail: FunctionNode = head
         while (tail.next != null) {
             if (tail.item.hashCode() != 0) {
-                result = result + tail.item.hashCode()
+                result += tail.item.hashCode()
             }
             tail = tail.next!!
         }
         if (leftX.toInt() != 0) {
             result += leftX.toBits().toInt()
         } else {
-            result = result + 55555
+            result += 55555
         }
         if (rightX != 0.0) {
             result += rightX.toBits().toInt()
         } else {
-            result = result + 55555
+            result += 55555
         }
         return result
     }

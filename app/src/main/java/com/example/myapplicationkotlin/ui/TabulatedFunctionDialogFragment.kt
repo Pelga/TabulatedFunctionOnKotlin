@@ -9,16 +9,16 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplicationkotlin.R
-import com.example.myapplicationkotlin.domain.Constants.Companion.CANCEL
-import com.example.myapplicationkotlin.domain.Constants.Companion.DIALOG_TITLE
-import com.example.myapplicationkotlin.domain.Constants.Companion.NULL
-import com.example.myapplicationkotlin.domain.Constants.Companion.OK
-import com.example.myapplicationkotlin.ui.TabulatedFunctionString.Companion.toStr
+import com.example.myapplicationkotlin.domain.Constants.CANCEL
+import com.example.myapplicationkotlin.domain.Constants.DIALOG_TITLE
+import com.example.myapplicationkotlin.domain.Constants.NULL
+import com.example.myapplicationkotlin.domain.Constants.OK
+import com.example.myapplicationkotlin.ui.TabulatedFunctionString.toStr
 import java.io.Serializable
 
 class TabulatedFunctionDialogFragment : DialogFragment(), Serializable {
-    lateinit var xDialog2: EditText
-    lateinit var yDialog2: EditText
+    private lateinit var xDialog2: EditText
+    private lateinit var yDialog2: EditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val myFragmentViewModel =
@@ -28,8 +28,8 @@ class TabulatedFunctionDialogFragment : DialogFragment(), Serializable {
         val view: View = inflater.inflate(R.layout.dialog, null)
         builder.setView(view)
             .setTitle(DIALOG_TITLE)
-            .setNegativeButton(CANCEL) { dialog, i -> }
-            .setPositiveButton(OK) { dialog, i ->
+            .setNegativeButton(CANCEL) { _, _ -> }
+            .setPositiveButton(OK) { _, _ ->
                 val strX: String = toStr(xDialog2)
                 val strY: String = toStr(yDialog2)
                 if (strX.trim { it <= ' ' } != NULL || strY == NULL) {

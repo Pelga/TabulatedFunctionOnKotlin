@@ -1,8 +1,8 @@
 package com.example.myapplicationkotlin.domain
 
-import com.example.myapplicationkotlin.domain.Constants.Companion.CLOSE_ANOTHER
-import com.example.myapplicationkotlin.domain.Constants.Companion.OPEN_ANOTHER
-import com.example.myapplicationkotlin.domain.Constants.Companion.SEMICOLON
+import com.example.myapplicationkotlin.domain.Constants.CLOSE_ANOTHER
+import com.example.myapplicationkotlin.domain.Constants.OPEN_ANOTHER
+import com.example.myapplicationkotlin.domain.Constants.SEMICOLON
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -39,8 +39,9 @@ class FunctionPoint : Serializable {
             return true
         }
         val c = o as FunctionPoint
-        return (java.lang.Double.compare(x, c.x) === 0
-                && java.lang.Double.compare(y, c.y) === 0)
+        return (x.compareTo(c.x) === 0
+                && y.compareTo(c.y) === 0)
+
     }
 
     override fun hashCode(): Int {

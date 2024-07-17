@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplicationkotlin.R
 import com.example.myapplicationkotlin.data.TabulatedFunctionRepository
 import com.example.myapplicationkotlin.domain.ArrayTabulatedFunction
-import com.example.myapplicationkotlin.domain.Constants.Companion.ARRAY
-import com.example.myapplicationkotlin.domain.Constants.Companion.NULL
+import com.example.myapplicationkotlin.domain.Constants.ARRAY
+import com.example.myapplicationkotlin.domain.Constants.NULL
 import com.example.myapplicationkotlin.domain.TabulatedFunctionUseCase
 import com.example.myapplicationkotlin.domain.TabulatedFunctionUseCaseCallback
-import com.example.myapplicationkotlin.ui.TabulatedFunctionString.Companion.toStr
+import com.example.myapplicationkotlin.ui.TabulatedFunctionString.toStr
 
 
 class MainActivityViewModel : ViewModel() {
@@ -22,28 +22,28 @@ class MainActivityViewModel : ViewModel() {
     val visibilityLiveData = MutableLiveData<Int>()
     val closeCardViewLiveData = MutableLiveData<Boolean>()
 
-    val myRepository = TabulatedFunctionRepository()
-    val useCase = TabulatedFunctionUseCase(myRepository)
+    private val myRepository = TabulatedFunctionRepository()
+    private val useCase = TabulatedFunctionUseCase(myRepository)
 
-    fun generatedArrayFunction(x: Double, y: Double, p: Int) {
-        arrayTabulatedFunctionLiveData.setValue(ArrayTabulatedFunction(x, y, p))
+    private fun generatedArrayFunction(x: Double, y: Double, p: Int) {
+        arrayTabulatedFunctionLiveData.value = ArrayTabulatedFunction(x, y, p)
     }
 
-    fun closeKeyboardAndMakeInvisible(view: View, inter: Int) {
-        closeKeyboardLiveData.setValue(view)
-        visibilityLiveData.setValue(inter)
+    private fun closeKeyboardAndMakeInvisible(view: View, inter: Int) {
+        closeKeyboardLiveData.value = view
+        visibilityLiveData.value = inter
     }
 
 
     fun materialButtonGeneratePressed(view: View, inter: Int, closeCardView: Boolean) {
-        closeKeyboardAndMakeInvisible(view, inter)
-        closeCardViewLiveData.setValue(closeCardView)
+        this.closeKeyboardAndMakeInvisible(view, inter)
+        closeCardViewLiveData.value = closeCardView
         createTabulatedFunctionByRequest()
     }
 
     fun materialButtonDownloadPressed(view: View, inter: Int, closeCardView: Boolean) {
         closeKeyboardAndMakeInvisible(view, inter)
-        closeCardViewLiveData.setValue(closeCardView)
+        closeCardViewLiveData.value = closeCardView
         createTabulatedFunctionByDatabase()
     }
 
@@ -54,13 +54,12 @@ class MainActivityViewModel : ViewModel() {
         view: View,
         integer: Int
     ) {
-        if (toStr(r).trim()
-                .equals(NULL) || toStr(l).equals(NULL) || toStr(p).equals(ARRAY)
+        if (toStr(r).trim() == NULL || toStr(l) == NULL || toStr(p) == ARRAY
         ) {
             createErrorToast()
         } else {
             closeKeyboardAndMakeInvisible(view, integer)
-            closeCardViewLiveData.setValue(true)
+            closeCardViewLiveData.value = true
             val left: Double = toStr(l).toDouble()
             val right: Double = toStr(r).toDouble()
             val pointsCount: Int = toStr(p).toInt()
@@ -68,19 +67,19 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
-    fun createErrorToast() {
-        makeErrorToastLiveData.setValue(R.string.error)
+    private fun createErrorToast() {
+        makeErrorToastLiveData.value = R.string.error
     }
 
     fun createFailureToast() {
-        makeErrorToastLiveData.setValue(R.string.failure)
+        makeErrorToastLiveData.value = R.string.failure
     }
 
-    fun createTabulatedFunctionByRequest() {
+    private fun createTabulatedFunctionByRequest() {
         useCase.getArrayTabulatedFunction(object :
             TabulatedFunctionUseCaseCallback {
             override fun onSuccess(arrayTabulatedFunction: ArrayTabulatedFunction?) {
-                arrayTabulatedFunctionLiveData.setValue(arrayTabulatedFunction)
+                arrayTabulatedFunctionLiveData.value = arrayTabulatedFunction
             }
 
             override fun onFailure(throwable: Throwable?) {
@@ -89,7 +88,7 @@ class MainActivityViewModel : ViewModel() {
         })
     }
 
-    fun createTabulatedFunctionByDatabase() {
-        arrayTabulatedFunctionLiveData.setValue(useCase.getArrayTabulatedFunctionDataBase())
+    private fun createTabulatedFunctionByDatabase() {
+        arrayTabulatedFunctionLiveData.value = useCase.getArrayTabulatedFunctionDataBase()
     }
 }

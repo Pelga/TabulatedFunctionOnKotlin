@@ -3,7 +3,7 @@ package com.example.myapplicationkotlin.app
 import android.app.Application
 import androidx.room.Room
 import com.example.myapplicationkotlin.data.TabulatedFunctionDatabase
-import com.example.myapplicationkotlin.domain.Constants.Companion.DATABASE
+import com.example.myapplicationkotlin.domain.Constants.DATABASE
 
 class App : Application() {
     lateinit var database: TabulatedFunctionDatabase

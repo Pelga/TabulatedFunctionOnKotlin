@@ -3,13 +3,7 @@ package com.example.myapplicationkotlin.domain
 import com.example.myapplicationkotlin.data.TabulatedFunctionRepository
 import com.example.myapplicationkotlin.data.retrofit.TabulatedFunctionRepositoryCallback
 
-class TabulatedFunctionUseCase {
-
-    val myRepository: TabulatedFunctionRepository
-
-    constructor(myRepository: TabulatedFunctionRepository) {
-        this.myRepository = myRepository
-    }
+class TabulatedFunctionUseCase(private val myRepository: TabulatedFunctionRepository) {
 
     fun getArrayTabulatedFunction(myUseCaseCallback: TabulatedFunctionUseCaseCallback) {
         myRepository.createTabulatedFunctionByRequest(object :
@@ -24,7 +18,7 @@ class TabulatedFunctionUseCase {
         })
     }
 
-    fun getArrayTabulatedFunctionDataBase(): ArrayTabulatedFunction? {
+    fun getArrayTabulatedFunctionDataBase(): ArrayTabulatedFunction {
         return myRepository.createTabulatedFunctionByDatabase()
     }
 

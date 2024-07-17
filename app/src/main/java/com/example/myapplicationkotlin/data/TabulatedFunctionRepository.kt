@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class TabulatedFunctionRepository {
 
-    val BASE_URL = "https://run.mocky.io/"
+    private val BASE_URL = "https://run.mocky.io/"
 
     var data: TabulatedFunctionDateNumbers? = null
 
@@ -49,18 +49,18 @@ class TabulatedFunctionRepository {
         })
     }
 
-    fun createTabulatedFunctionByDatabase(): ArrayTabulatedFunction? {
+    fun createTabulatedFunctionByDatabase(): ArrayTabulatedFunction {
         val db: TabulatedFunctionDatabase = App.instance.database
         val dao = db.tabulatedFunctionDao()
         val entity: List<TabulatedFunctionEntity> = dao!!.getAll()
         val arrayTabulatedFunction = ArrayTabulatedFunction(toFunctionArray(entity))
-        for (i in entity!!.indices) {
+        for (i in entity.indices) {
             dao.delete(entity[i])
         }
         return arrayTabulatedFunction
     }
 
-    fun toFunctionArray(entity: List<TabulatedFunctionEntity?>?): Array<FunctionPoint?> {
+    private fun toFunctionArray(entity: List<TabulatedFunctionEntity?>?): Array<FunctionPoint?> {
         val array: Array<FunctionPoint?> = arrayOfNulls(entity!!.size)
         for (i in entity.indices) {
             array[i] = entity[i]?.let { toFunctionPoint(it) }
@@ -68,7 +68,7 @@ class TabulatedFunctionRepository {
         return array
     }
 
-    fun toFunctionPoint(entity: TabulatedFunctionEntity): FunctionPoint? {
+    private fun toFunctionPoint(entity: TabulatedFunctionEntity): FunctionPoint {
         val fp = FunctionPoint()
         fp.x = entity.x
         fp.y = entity.y

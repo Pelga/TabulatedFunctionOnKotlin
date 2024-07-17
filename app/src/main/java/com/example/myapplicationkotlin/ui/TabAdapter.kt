@@ -14,9 +14,8 @@ import com.example.myapplicationkotlin.domain.FunctionPoint
 class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Serializable {
     val list = ArrayList<FunctionPoint>()
 
-    @NonNull
     override fun onCreateViewHolder(
-        @NonNull
+
         viewGroup: ViewGroup,
         i: Int
     ): TabViewHolder {
@@ -26,14 +25,13 @@ class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Ser
     }
 
     override fun onBindViewHolder(
-        @NonNull
         tabViewHolder: TabViewHolder,
         i: Int
     ) {
-        tabViewHolder.getButton().setText(list.get(i).toString())
+        tabViewHolder.getButton().text = list[i].toString()
         tabViewHolder.getButton().setOnClickListener(
             (
-                    { view -> delete(i) })
+                    { delete(i) })
         )
     }
 
@@ -58,15 +56,15 @@ class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Ser
         notifyDataSetChanged()
     }
 
-    class TabViewHolder : RecyclerView.ViewHolder {
+    class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val tabulatedButton: Button
+        private val tabulatedButton: Button
 
         fun getButton(): Button {
             return tabulatedButton
         }
 
-        constructor(itemView: View) : super(itemView) {
+        init {
             tabulatedButton = itemView.findViewById(R.id.tabulatedButton)
         }
     }

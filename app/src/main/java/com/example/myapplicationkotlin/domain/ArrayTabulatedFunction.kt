@@ -1,15 +1,15 @@
 package com.example.myapplicationkotlin.domain
 
-import com.example.myapplicationkotlin.domain.Constants.Companion.CLOSE
-import com.example.myapplicationkotlin.domain.Constants.Companion.COMMA
-import com.example.myapplicationkotlin.domain.Constants.Companion.OPEN
+import com.example.myapplicationkotlin.domain.Constants.CLOSE
+import com.example.myapplicationkotlin.domain.Constants.COMMA
+import com.example.myapplicationkotlin.domain.Constants.OPEN
 import java.io.Serializable
 
 @Suppress("UNREACHABLE_CODE")
 class ArrayTabulatedFunction : Serializable {
-    var arrayFPX: Array<FunctionPoint?>
-    var leftX: Double = 0.0
-    var rightX: Double = 0.0
+    private var arrayFPX: Array<FunctionPoint?>
+    private var leftX: Double = 0.0
+    private var rightX: Double = 0.0
 
 
     constructor(leftX: Double, rightX: Double, pointsCount: Int) {
@@ -48,7 +48,7 @@ class ArrayTabulatedFunction : Serializable {
         for (i in 0 until pointsCount) {
             if (i == pointsCount - 1) {
                 if (arrayFPX[i] != null) {
-                    str = str + arrayFPX[i].toString()
+                    str += arrayFPX[i].toString()
                 }
             } else {
                 if (arrayFPX[i] != null) {
