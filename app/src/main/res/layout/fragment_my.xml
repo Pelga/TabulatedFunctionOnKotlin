@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.TabulatedFunctionFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/tabulated_function" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/grey" />
+
+    <Button
+        android:id="@+id/button_database"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="610dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/grey_generate"
+        android:text="@string/save"
+        android:textColor="@color/black"
+        tools:layout_editor_absoluteX="0dp" />
+
+</FrameLayout>
