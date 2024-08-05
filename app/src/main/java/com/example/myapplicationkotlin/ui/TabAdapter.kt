@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationkotlin.R
 import com.example.myapplicationkotlin.domain.ArrayTabulatedFunction
@@ -19,7 +18,7 @@ class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Ser
         viewGroup: ViewGroup,
         i: Int
     ): TabViewHolder {
-        val view: View = LayoutInflater.from(viewGroup.context)
+        val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.tabulated_function, viewGroup, false)
         return TabViewHolder(view)
     }
@@ -28,11 +27,8 @@ class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Ser
         tabViewHolder: TabViewHolder,
         i: Int
     ) {
-        tabViewHolder.getButton().text = list[i].toString()
-        tabViewHolder.getButton().setOnClickListener(
-            (
-                    { delete(i) })
-        )
+        tabViewHolder.tabulatedButton.text = list[i].toString()
+        tabViewHolder.tabulatedButton.setOnClickListener { delete(i) }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -46,9 +42,7 @@ class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Ser
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount() = list.size
 
     @SuppressLint("NotifyDataSetChanged")
     fun delete(position: Int) {
@@ -58,14 +52,6 @@ class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Ser
 
     class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val tabulatedButton: Button
-
-        fun getButton(): Button {
-            return tabulatedButton
-        }
-
-        init {
-            tabulatedButton = itemView.findViewById(R.id.tabulatedButton)
-        }
+        val tabulatedButton: Button = itemView.findViewById(R.id.tabulatedButton)
     }
 }

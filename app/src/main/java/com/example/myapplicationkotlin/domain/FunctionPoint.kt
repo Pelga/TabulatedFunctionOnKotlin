@@ -6,33 +6,16 @@ import com.example.myapplicationkotlin.domain.Constants.SEMICOLON
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class FunctionPoint : Serializable {
-
+class FunctionPoint(
     @SerializedName("x")
-    var x: Double
+    var x: Double = 0.0,
 
     @SerializedName("y")
-    var y: Double
+    var y: Double = 0.0
+) : Serializable {
 
-    constructor(x: Double, y: Double) {
-        this.x = x
-        this.y = y
-    }
+    override fun toString() = OPEN_ANOTHER + x + SEMICOLON + y + CLOSE_ANOTHER
 
-    constructor(point: FunctionPoint) {
-        this.x = point.x
-        this.y = point.y
-    }
-
-    constructor() {
-        this.x = 0.0
-        this.y = 0.0
-    }
-
-    override fun toString(): String {
-        val str: String = OPEN_ANOTHER + x + SEMICOLON + y + CLOSE_ANOTHER
-        return str
-    }
 
     override fun equals(o: Any?): Boolean {
         if (o === this) {

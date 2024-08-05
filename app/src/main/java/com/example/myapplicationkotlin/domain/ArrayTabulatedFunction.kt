@@ -23,9 +23,9 @@ class ArrayTabulatedFunction : Serializable {
         for (i in 0 until pointsCount) {
             arrayFPX[i] = FunctionPoint()
             if (i == 0) {
-                arrayFPX[i]!!.x = leftX
+                arrayFPX[i]?.x = leftX
             } else {
-                arrayFPX[i]!!.x = del + arrayFPX[i - 1]!!.x
+                arrayFPX[i]?.x = del + (arrayFPX[i - 1]?.x ?: 0.0)
             }
         }
     }
@@ -34,26 +34,20 @@ class ArrayTabulatedFunction : Serializable {
         this.arrayFPX = arrayFPX
     }
 
-    fun getPoint(index: Int): FunctionPoint? {
-        return arrayFPX[index]
-    }
+    fun getPoint(index: Int) = arrayFPX[index]
 
-    fun getPointsCount(): Int {
-        return arrayFPX.size
-    }
+
+    fun getPointsCount() = arrayFPX.size
+
 
     override fun toString(): String {
-        var str: String = OPEN
+        var str = OPEN
         val pointsCount = arrayFPX.size
         for (i in 0 until pointsCount) {
             if (i == pointsCount - 1) {
-                if (arrayFPX[i] != null) {
-                    str += arrayFPX[i].toString()
-                }
+                str += arrayFPX[i].toString()
             } else {
-                if (arrayFPX[i] != null) {
-                    str = str + arrayFPX[i].toString() + COMMA
-                }
+                str = str + arrayFPX[i].toString() + COMMA
             }
         }
         return str + CLOSE

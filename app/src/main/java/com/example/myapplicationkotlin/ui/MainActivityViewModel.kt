@@ -34,7 +34,6 @@ class MainActivityViewModel : ViewModel() {
         visibilityLiveData.value = inter
     }
 
-
     fun materialButtonGeneratePressed(view: View, inter: Int, closeCardView: Boolean) {
         this.closeKeyboardAndMakeInvisible(view, inter)
         closeCardViewLiveData.value = closeCardView
@@ -60,9 +59,9 @@ class MainActivityViewModel : ViewModel() {
         } else {
             closeKeyboardAndMakeInvisible(view, integer)
             closeCardViewLiveData.value = true
-            val left: Double = toStr(l).toDouble()
-            val right: Double = toStr(r).toDouble()
-            val pointsCount: Int = toStr(p).toInt()
+            val left = toStr(l).toDouble()
+            val right = toStr(r).toDouble()
+            val pointsCount = toStr(p).toInt()
             generatedArrayFunction(left, right, pointsCount)
         }
     }

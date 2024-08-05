@@ -20,67 +20,87 @@ class TabulatedFunctionRepository {
     var data: TabulatedFunctionDateNumbers? = null
 
     fun createTabulatedFunctionByRequest(myRepositoryCallback: TabulatedFunctionRepositoryCallback) {
-        val retrofit: Retrofit = Retrofit.Builder()
+        val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val apiService: TabulatedFunctionAPI = retrofit.create(TabulatedFunctionAPI::class.java)
-        val call: Call<TabulatedFunctionDateNumbers> = apiService.getMyData()
+        val apiService = retrofit.create(TabulatedFunctionAPI::class.java)
+        val call = apiService.getMyData()
         call.enqueue(object : Callback<TabulatedFunctionDateNumbers?> {
             override fun onResponse(
                 call: Call<TabulatedFunctionDateNumbers?>,
                 response: Response<TabulatedFunctionDateNumbers?>
             ) {
-                val arrayTabulatedFunction: ArrayTabulatedFunction
                 if (response.isSuccessful) {
-                    data = response.body()
-                    assert(data != null)
-                    arrayTabulatedFunction = ArrayTabulatedFunction(data!!.numbers)
-                    myRepositoryCallback.onSuccess(arrayTabulatedFunction)
+                    val data = response.body()
+                    val numbers = data?.numbers?.filterNotNull()
+                    val arrayTabulatedFunction = numbers?.let { nums ->
+                        ArrayTabulatedFunction(nums.toTypedArray())
+                    }
+                    if (arrayTabulatedFunction != null) {
+                        myRepositoryCallback.onSuccess(arrayTabulatedFunction)
+                    } else {
+                        myRepositoryCallback.onFailure(Throwable("Error creating ArrayTabulatedFunction"))
+                    }
                 } else {
-                    myRepositoryCallback.onFailure(Throwable("error response"))
+                    myRepositoryCallback.onFailure(Throwable("Error response"))
                 }
             }
 
             override fun onFailure(call: Call<TabulatedFunctionDateNumbers?>, t: Throwable) {
-                call.cancel()
                 myRepositoryCallback.onFailure(t)
             }
         })
     }
 
-    fun createTabulatedFunctionByDatabase(): ArrayTabulatedFunction {
-        val db: TabulatedFunctionDatabase = App.instance.database
+    fun createTabulatedFunctionByDatabase(): ArrayTabulatedFunction? {
+        val db = App.instance.database
         val dao = db.tabulatedFunctionDao()
-        val entity: List<TabulatedFunctionEntity> = dao!!.getAll()
+        if (dao == null) {
+            println("TabulatedFunctionDao is null")
+            return null
+        }
+
+        val entity = dao.getAll()
         val arrayTabulatedFunction = ArrayTabulatedFunction(toFunctionArray(entity))
-        for (i in entity.indices) {
-            dao.delete(entity[i])
+
+        db.runInTransaction {
+            for (i in entity.indices) {
+                dao.delete(entity[i])
+            }
         }
         return arrayTabulatedFunction
     }
 
     private fun toFunctionArray(entity: List<TabulatedFunctionEntity?>?): Array<FunctionPoint?> {
-        val array: Array<FunctionPoint?> = arrayOfNulls(entity!!.size)
+        if (entity.isNullOrEmpty()) {
+            return emptyArray()
+        }
+
+        val array: Array<FunctionPoint?> = Array(entity.size) { FunctionPoint() }
         for (i in entity.indices) {
-            array[i] = entity[i]?.let { toFunctionPoint(it) }
+            array[i] = toFunctionPoint(entity[i])
         }
         return array
     }
 
-    private fun toFunctionPoint(entity: TabulatedFunctionEntity): FunctionPoint {
+    private fun toFunctionPoint(entity: TabulatedFunctionEntity?): FunctionPoint {
         val fp = FunctionPoint()
-        fp.x = entity.x
-        fp.y = entity.y
+        if (entity != null) {
+            fp.x = entity.x
+        }
+        if (entity != null) {
+            fp.y = entity.y
+        }
         return fp
     }
 
     fun buttonDatabasePressed(list: ArrayList<FunctionPoint>) {
-        val database: TabulatedFunctionDatabase = App.instance.database
+        val database = App.instance.database
         val dao = database.tabulatedFunctionDao()
         for (i in list.indices) {
             val entity = TabulatedFunctionEntity(list[i].x, list[i].y)
-            dao!!.insert(entity)
+            dao?.insert(entity)
         }
     }
 }

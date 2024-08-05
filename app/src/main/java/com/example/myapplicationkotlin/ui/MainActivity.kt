@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity(), Serializable {
             Toast.makeText(this@MainActivity, string, Toast.LENGTH_LONG).show()
         }
         viewModel.arrayTabulatedFunctionLiveData
-            .observe(this) { arrayTabulatedFunction: ArrayTabulatedFunction? ->
+            .observe(this) { arrayTabulatedFunction: ArrayTabulatedFunction ->
                 openFragment(
-                    arrayTabulatedFunction!!
+                    arrayTabulatedFunction
                 )
             }
         viewModel.closeKeyboardLiveData.observe(this, ::closeKeyboard)

@@ -16,28 +16,22 @@ import com.example.myapplicationkotlin.domain.Constants.DIALOG
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.Serializable
 
-class TabulatedFunctionFragment : Fragment, Serializable {
+class TabulatedFunctionFragment(private val array: ArrayTabulatedFunction?) : Fragment(),
+    Serializable {
     private var tabulatedFunctionFragmentViewModel: TabulatedFunctionFragmentViewModel? = null
     private var tabulatedFunctionDialogFragment: TabulatedFunctionDialogFragment? = null
     private var tabAdapter: TabAdapter? = null
-    private var array: ArrayTabulatedFunction? = null
-
-    constructor(array: ArrayTabulatedFunction?) {
-        this.array = array
-    }
-
-    constructor() {}
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View { //?
-        val view: View = inflater.inflate(R.layout.fragment_my, container, false)
+    ): View {
+        val view = inflater.inflate(R.layout.fragment_my, container, false)
         tabulatedFunctionFragmentViewModel =
             ViewModelProvider(requireActivity())[TabulatedFunctionFragmentViewModel::class.java]
-        if (array != null) {
-            tabulatedFunctionFragmentViewModel!!.setArrayTabulatedFunction(array!!)
+        array?.let {
+            tabulatedFunctionFragmentViewModel?.setArrayTabulatedFunction(it)
         }
         observeFragmentViewModel(view)
         return view
@@ -45,7 +39,7 @@ class TabulatedFunctionFragment : Fragment, Serializable {
 
     private fun openDialog() {
         tabulatedFunctionDialogFragment = TabulatedFunctionDialogFragment()
-        tabulatedFunctionDialogFragment!!.show(childFragmentManager, DIALOG)
+        tabulatedFunctionDialogFragment?.show(childFragmentManager, DIALOG)
     }
 
     override fun onPause() {
@@ -54,9 +48,7 @@ class TabulatedFunctionFragment : Fragment, Serializable {
     }
 
     private fun closeDialog() {
-        if (tabulatedFunctionDialogFragment != null) {
-            tabulatedFunctionDialogFragment?.dismiss()
-        }
+        tabulatedFunctionDialogFragment?.dismiss()
     }
 
     private fun observeFragmentViewModel(view: View) {
@@ -70,7 +62,7 @@ class TabulatedFunctionFragment : Fragment, Serializable {
         ) { array -> tabAdapter?.saveList(array) }
         tabulatedFunctionFragmentViewModel?.openDialogFragmentLiveData?.observe(
             viewLifecycleOwner
-        ) { b -> openDialog() }
+        ) { openDialog() }
 
         val addButton: FloatingActionButton = view.findViewById(R.id.add_button)
         val buttonDatabase: Button = view.findViewById(R.id.button_database)
@@ -79,15 +71,16 @@ class TabulatedFunctionFragment : Fragment, Serializable {
             viewLifecycleOwner
         ) { string -> Toast.makeText(requireContext(), string, Toast.LENGTH_LONG).show() }
 
-        addButton.setOnClickListener(View.OnClickListener {
-            tabulatedFunctionFragmentViewModel?.addButtonPressed(
-                false
-            )
-        })
-        buttonDatabase.setOnClickListener(View.OnClickListener {
-            tabulatedFunctionFragmentViewModel?.buttonDatabasePressed(
-                tabAdapter!!.list
-            )
-        })
+        addButton.setOnClickListener {
+            tabulatedFunctionFragmentViewModel?.addButtonPressed(false)
+        }
+
+        buttonDatabase.setOnClickListener {
+            tabAdapter?.list?.let { it1 ->
+                tabulatedFunctionFragmentViewModel?.buttonDatabasePressed(
+                    it1
+                )
+            }
+        }
     }
 }

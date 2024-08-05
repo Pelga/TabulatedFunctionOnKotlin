@@ -18,9 +18,7 @@ class TabulatedFunctionUseCase(private val myRepository: TabulatedFunctionReposi
         })
     }
 
-    fun getArrayTabulatedFunctionDataBase(): ArrayTabulatedFunction {
-        return myRepository.createTabulatedFunctionByDatabase()
-    }
+    fun getArrayTabulatedFunctionDataBase() = myRepository.createTabulatedFunctionByDatabase()
 
     fun getButtonDatabasePressed(list: ArrayList<FunctionPoint>) {
         myRepository.buttonDatabasePressed(list)

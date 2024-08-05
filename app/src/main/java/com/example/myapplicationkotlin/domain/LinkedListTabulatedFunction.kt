@@ -7,172 +7,152 @@ import java.io.Serializable
 
 class LinkedListTabulatedFunction : Serializable {
 
-    private var head: FunctionNode = FunctionNode()
-    private var lastIndex: Int = -1
-    private var leftX: Double = 0.0
-    private var rightX: Double = 0.0
+    private var head = FunctionNode()
+    private var lastIndex = -1
+    private var leftX = 0.0
+    private var rightX = 0.0
     private var values: Array<Double>? = null
 
     constructor(array: Array<FunctionPoint>) {
-        val pointsCount: Int = array.size
-        var buffer: FunctionNode = head
+        val pointsCount = array.size
+        var buffer = head
         for (i in 0 until pointsCount) {
             buffer.item.x = array[i].x
             buffer.item.y = array[i].y
             buffer.next = FunctionNode()
-            buffer = buffer.next!!
+            buffer = buffer.next ?: throw IllegalArgumentException("Next node is null")
             if (i != pointsCount - 1 && array[i].x > array[i + 1].x) {
-                throw IllegalArgumentException()
+                throw IllegalArgumentException("Points are not sorted")
             }
         }
         if (pointsCount < 2) {
-            throw IllegalArgumentException()
+            throw IllegalArgumentException("Not enough points")
         }
     }
 
     constructor(leftX: Double, rightX: Double, pointsCount: Int) {
-        if (leftX >= rightX && pointsCount < 2) {
-            throw IllegalArgumentException()
+        if (leftX >= rightX || pointsCount < 2) {
+            throw IllegalArgumentException("Invalid input parameters")
         }
         this.leftX = leftX
         this.rightX = rightX
-        var allLength: FunctionNode = head
-        var i = 0
-        val del: Double = (rightX - leftX) / pointsCount
-        while (i < pointsCount) {
+        var allLength = head
+        val del = (rightX - leftX) / pointsCount
+        for (i in 0 until pointsCount) {
             allLength.item = FunctionPoint()
             allLength.next = FunctionNode(allLength, FunctionPoint(), null, i)
             if (i == 0) {
                 allLength.item.x = leftX
             } else {
-                allLength.item.x = allLength.prev!!.item.x + del
+                allLength.item.x = allLength.prev?.item?.x?.plus(del)
+                    ?: throw IllegalArgumentException("Previous node is null")
             }
-            i++
-            allLength = allLength.next!!
+            allLength = allLength.next ?: throw IllegalArgumentException("Next node is null")
         }
     }
 
     constructor(leftX: Double, rightX: Double, values: Array<Double>) {
-        if (leftX >= rightX && values.size < 2) {
-            throw IllegalArgumentException()
+        if (leftX >= rightX || values.size < 2) {
+            throw IllegalArgumentException("Invalid input parameters")
         }
         this.leftX = leftX
         this.rightX = rightX
         this.values = values
         head = FunctionNode()
-        var allLength: FunctionNode = head
-        var i = 0
-        val pointsCount: Int = values.size
-        val del: Double = (rightX - leftX) / pointsCount
-        while (i < pointsCount) {
+        var allLength = head
+        val pointsCount = values.size
+        val del = (rightX - leftX) / pointsCount
+        for (i in 0 until pointsCount) {
             allLength.item = FunctionPoint()
             if (i == 0) {
-                leftX.also { allLength.item.x = it }
+                allLength.item.x = leftX
             } else {
-                allLength.item.x = del + allLength.prev!!.item.x
+                allLength.item.x = del + (allLength.prev?.item?.x ?: throw IllegalArgumentException(
+                    "Previous node is null"
+                ))
             }
-            allLength.item.x = values[i]
+            allLength.item.y = values[i]
             allLength.next = FunctionNode()
-            allLength.next!!.prev = allLength
-            allLength = allLength.next!!
-            i++
+            allLength.next?.prev = allLength
+            allLength = allLength.next ?: throw IllegalArgumentException("Next node is null")
         }
     }
 
     fun returnNumb(x: Double): Array<Double>? {
-        var allLength: FunctionNode = head
+        var allLength = head
         while (allLength.next != null) {
-            if (x < allLength.item.x && x > allLength.prev!!.item.x) {
+            val prevItemX = allLength.prev?.item?.x ?: return null
+            if (x < allLength.item.x && x > prevItemX) {
                 return arrayOf(
                     allLength.item.x,
-                    allLength.prev!!.item.x,
+                    prevItemX,
                     allLength.item.y,
-                    allLength.prev!!.item.y
+                    allLength.prev?.item?.y ?: return null
                 )
             }
-            allLength = allLength.next!!
+            allLength = allLength.next ?: return null
         }
         return null
     }
 
     private fun getPointsCount(): Int {
-        var allLength: FunctionNode = head
-        var i: Int = 0
+        var allLength = head
+        var i = 0
         while (allLength.next != null) {
             i++
-            allLength = allLength.next!!
+            allLength = allLength.next ?: return i
         }
         return i
     }
 
     private fun getPoint(index: Int): FunctionPoint {
-        var allLength: FunctionNode = head
-        var i: Int = 0
+        var allLength = head
+        var i = 0
 
         while (i < index) {
             i++
-            allLength = allLength.next!!
+            allLength = allLength.next ?: throw IndexOutOfBoundsException("Index out of bounds")
         }
         return allLength.item
     }
 
-    fun getPointX(index: Int): Double {
-        return this.getPoint(index).x
-    }
+    fun getPointX(index: Int) = this.getPoint(index).x
 
-    fun getPointY(index: Int): Double {
-        return this.getPoint(index).y
-    }
+    fun getPointY(index: Int) = this.getPoint(index).y
 
     fun addPoint(point: FunctionPoint) {
         var i = 0
-        var allLength: FunctionNode = head
+        var allLength = head
         while (allLength.item.x <= point.x) {
             i++
-            allLength = allLength.next!!
+            allLength = allLength.next ?: break
         }
         addNodeByIndex(i, point)
     }
 
-    /*******************************************************************************************/
+    /**********************************************************/
+    class FunctionNode(
+        var prev: FunctionNode? = null,
+        var item: FunctionPoint = FunctionPoint(),
+        var next: FunctionNode? = null,
+        var index: Int = 0
+    ) : Serializable
 
-    class FunctionNode : Serializable {
-        var item: FunctionPoint
-        var next: FunctionNode?
-        var prev: FunctionNode?
-        var index: Int
+    /**********************************************************/
 
-
-        constructor() {
-            this.index = 0
-            this.item = FunctionPoint()
-            this.next = null
-            this.prev = null
-        }
-
-        constructor(prev: FunctionNode, item: FunctionPoint, next: FunctionNode?, index: Int) {
-            this.index = index
-            this.item = item
-            this.next = next
-            this.prev = prev
-        }
-    }
-
-    /*******************************************************************************************/
-
-    fun getNodeByIndex(index: Int): FunctionNode {
-        val currentElement: FunctionNode = head.next!!
+    private fun getNodeByIndex(index: Int): FunctionNode {
+        var currentElement = head.next ?: throw IndexOutOfBoundsException("No such index")
         while (index != currentElement.index) {
-            currentElement.next
+            currentElement = currentElement.next ?: throw IndexOutOfBoundsException("No such index")
         }
         return currentElement
     }
 
     fun addNodeToTail(functionPoint: FunctionPoint): FunctionNode {
         lastIndex += 1
-        var tail: FunctionNode = head
+        var tail = head
         while (tail.next != null) {
-            tail = tail.next!!
+            tail = tail.next ?: throw IllegalArgumentException("Next node is null")
         }
         tail.item = functionPoint
         tail.index = lastIndex
@@ -180,69 +160,59 @@ class LinkedListTabulatedFunction : Serializable {
     }
 
     private fun addNodeByIndex(index: Int, functionPoint: FunctionPoint): FunctionNode {
-        val prevIndex: FunctionNode = if (index == 0) {
+        val prevIndex = if (index == 0) {
             head
         } else {
             getNodeByIndex(index - 1)
         }
-        val newIndex: FunctionNode = getNodeByIndex(index)
+        val newIndex = getNodeByIndex(index)
         val newObject = FunctionNode(prevIndex, functionPoint, newIndex, index)
         newIndex.prev = newObject
         prevIndex.next = newObject
-        var objectForNext: FunctionNode = newIndex
+        var objectForNext = newIndex
         while (objectForNext.next != null) {
-            objectForNext.index = objectForNext.index + 1
-            objectForNext = objectForNext.next!!
+            objectForNext.index += 1
+            objectForNext =
+                objectForNext.next ?: throw IllegalArgumentException("Next node is null")
         }
         return newObject
     }
 
     override fun toString(): String {
-        var str: String = OPEN_ANOTHER
-        var tail: FunctionNode = head
+        var str = OPEN_ANOTHER
+        var tail = head
         while (tail.next != null) {
-            if (tail.next!!.next != null) {
-                str = str + tail.item.toString() + COMMA
-                tail = tail.next!!
+            str += if (tail.next?.next != null) {
+                "${tail.item}$COMMA"
             } else {
-                str += tail.item.toString()
-                tail = tail.next!!
+                tail.item.toString()
             }
+            tail = tail.next ?: break
         }
         tail.item = FunctionPoint()
-        return str + CLOSE_ANOTHER
+        return "$str$CLOSE_ANOTHER"
     }
 
     override fun hashCode(): Int {
-        var result: Int = 1
-        var tail: FunctionNode = head
+        var result = 1
+        var tail = head
         while (tail.next != null) {
-            if (tail.item.hashCode() != 0) {
-                result += tail.item.hashCode()
-            }
-            tail = tail.next!!
+            result += tail.item.hashCode()
+            tail = tail.next ?: break
         }
-        if (leftX.toInt() != 0) {
-            result += leftX.toBits().toInt()
-        } else {
-            result += 55555
-        }
-        if (rightX != 0.0) {
-            result += rightX.toBits().toInt()
-        } else {
-            result += 55555
-        }
+        result += leftX.toBits().toInt().takeIf { leftX != 0.0 } ?: 55555
+        result += rightX.toBits().toInt().takeIf { rightX != 0.0 } ?: 55555
         return result
     }
 
     fun clone(): Any {
+        val array = Array(getPointsCount()) { FunctionPoint() }
         var tail = head
         var i = 0
-        val array = Array(getPointsCount()) { FunctionPoint() }
         if (leftX == 0.0 && rightX == 0.0) {
             while (tail.next != null) {
                 array[i] = tail.item
-                tail = tail.next!!
+                tail = tail.next ?: break
                 i++
             }
             return LinkedListTabulatedFunction(array)
@@ -251,4 +221,3 @@ class LinkedListTabulatedFunction : Serializable {
             ?: LinkedListTabulatedFunction(leftX, rightX, getPointsCount())
     }
 }
-

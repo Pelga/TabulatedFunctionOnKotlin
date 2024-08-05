@@ -3,7 +3,6 @@ package com.example.myapplicationkotlin.ui
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
@@ -22,20 +21,19 @@ class TabulatedFunctionDialogFragment : DialogFragment(), Serializable {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val myFragmentViewModel =
-            ViewModelProvider(requireActivity()).get(TabulatedFunctionFragmentViewModel::class.java)
+            ViewModelProvider(requireActivity())[TabulatedFunctionFragmentViewModel::class.java]
         val builder = AlertDialog.Builder(activity)
         val inflater = requireActivity().layoutInflater
-        val view: View = inflater.inflate(R.layout.dialog, null)
+        val view = inflater.inflate(R.layout.dialog, null)
         builder.setView(view)
             .setTitle(DIALOG_TITLE)
             .setNegativeButton(CANCEL) { _, _ -> }
             .setPositiveButton(OK) { _, _ ->
-                val strX: String = toStr(xDialog2)
-                val strY: String = toStr(yDialog2)
+                val strX = toStr(xDialog2)
+                val strY = toStr(yDialog2)
                 if (strX.trim { it <= ' ' } != NULL || strY == NULL) {
                     val x = strX.toDouble()
                     val y = strY.toDouble()
-                    Log.d("1", "")
                     myFragmentViewModel.positiveButtonPressed(x, y)
                 }
             }

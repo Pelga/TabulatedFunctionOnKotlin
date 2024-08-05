@@ -26,7 +26,7 @@ class TabulatedFunctionFragmentViewModel : ViewModel() {
 
     fun buttonDatabasePressed(list: ArrayList<FunctionPoint>) {
         useCase.getButtonDatabasePressed(list)
-        this.createToast()
+        createToast()
     }
 
     fun addButtonPressed(bool: Boolean) {
@@ -35,13 +35,16 @@ class TabulatedFunctionFragmentViewModel : ViewModel() {
 
     fun positiveButtonPressed(x: Double, y: Double) {
         val functionPoint = FunctionPoint(x, y)
-        var array: ArrayTabulatedFunction = arrayTabulatedFunctionMutableLiveData.value!!
-        val functionPoints = Array<FunctionPoint?>(array.getPointsCount() + 1) { FunctionPoint() }
-        for (i in 0..<array.getPointsCount()) {
-            functionPoints[i] = array.getPoint(i)!!
+        var array: ArrayTabulatedFunction? = arrayTabulatedFunctionMutableLiveData.value
+        if (array != null) {
+            val functionPoints =
+                Array<FunctionPoint?>(array.getPointsCount() + 1) { FunctionPoint() }
+            for (i in 0..<array.getPointsCount()) {
+                functionPoints[i] = array.getPoint(i)
+            }
+            functionPoints[functionPoints.size - 1] = functionPoint
+            array = ArrayTabulatedFunction(functionPoints)
+            arrayTabulatedFunctionMutableLiveData.value = array
         }
-        functionPoints[functionPoints.size - 1] = functionPoint
-        array = ArrayTabulatedFunction(functionPoints)
-        arrayTabulatedFunctionMutableLiveData.value = array
     }
 }
