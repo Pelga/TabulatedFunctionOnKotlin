@@ -53,8 +53,7 @@ class MainActivityViewModel : ViewModel() {
         view: View,
         integer: Int
     ) {
-        if (toStr(r).trim() == NULL || toStr(l) == NULL || toStr(p) == ARRAY
-        ) {
+        if (toStr(r).trim() == NULL || toStr(l) == NULL || toStr(p) == ARRAY) {
             createErrorToast()
         } else {
             closeKeyboardAndMakeInvisible(view, integer)

@@ -88,8 +88,6 @@ class TabulatedFunctionRepository {
         val fp = FunctionPoint()
         if (entity != null) {
             fp.x = entity.x
-        }
-        if (entity != null) {
             fp.y = entity.y
         }
         return fp

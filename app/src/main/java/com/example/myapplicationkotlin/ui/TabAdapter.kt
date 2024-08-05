@@ -37,7 +37,7 @@ class TabAdapter : RecyclerView.Adapter<TabAdapter.TabViewHolder>(), java.io.Ser
     ) {
         for (i in 0 until list.getPointsCount()) {
             this.list.remove(list.getPoint(i))
-            this.list.add(list.getPoint(i)!!)
+            list.getPoint(i)?.let { this.list.add(it) }
         }
         notifyDataSetChanged()
     }
